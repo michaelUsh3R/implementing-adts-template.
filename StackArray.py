@@ -1,7 +1,7 @@
 # MODIFY ME TO IMPLEMENT YOUR SOLUTION
 # TO PROBLEM 4: Stack-Array
 #
-# NAME:         FIXME
+# NAME:         Michael Usher
 # ASSIGNMENT:   Project 5: Implementing ADTs
 
 class StackArray(object):
@@ -9,16 +9,20 @@ class StackArray(object):
         self.array = [0 for i in range(size)]
         self.top = -1
 
-    def peek(self):
-        # FIXME
-        return
+    def peek(self):         # return array top as peek
+        return self.array[self.top]
 
-    def pop(self):
-        # FIXME
-        return
+    def pop(self): # decreases top item and returns it
+        if (self.top == -1):
+            return None
+        item = self.array[self.top]
+        self.top = self.top - 1
+        return item
 
-    def push(self, data=None):
-        # FIXME
+    def push(self, data=None): # push when array isn't full
+        if (self.top < len(self.array) - 1):
+            self.top = self.top + 1;
+            self.array[self.top] = data;
         return
 
     def print(self):
@@ -26,34 +30,35 @@ class StackArray(object):
             print(self.array[i], "=>", end=" ")
         print("NULL")
 
-    def is_empty(self):
-        # FIXME
-        return
+    def is_empty(self): # returns -1 if it is empty
+        return (self.top == -1)
 
-    def is_full(self):
+    def is_full(self): # returns -1 if it is full
         return self.top == len(self.array) - 1
 
-    def clear(self):
-        # FIXME
+    def clear(self): # delete all elements in array
+        for i in range(0, self.top):
+            self.array[self.top] == None
+            self.top = self.top - 1
+        self.top = -1
         return
 
     def size(self):
         return self.top + 1
 
-
 def main():
-    s = StackArray()
-    s.print()
-    print("Is empty?", s.is_empty())
-    for i in range(1, 10):
+    s = StackArray(5)
+    le = []
+    la = []
+    for i in range(20, 201, 10):
         s.push(i)
-    s.print()
-    print("Peek:", s.peek())
-    print("Pop: ", s.pop())
-    s.print()
-    print("Is empty?", s.is_empty())
+        le.insert(0, i)
+    while not s.is_empty():
+        la.append(s.pop())
+    print(le == la)
 
 # Don't run main on import
 if __name__ == "__main__":
     main()
+
 
