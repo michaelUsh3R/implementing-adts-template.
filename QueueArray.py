@@ -10,51 +10,76 @@ class QueueArray(object):
         self.front = -1
         self.tail = -1
 
-    # Function to insert an element
-    # at the rear of the queue
-    def queueEnqueue(self, data):
-        # Check queue is full or not
-        if (self.capacity == self.rear):
-            print("\nQueue is full")
-        # Insert element at the rear
+    def get_front(self): #gets the front
+        if self.is_empty():
+            return None
+        return self.array[self.front]
+
+    def get_tail(self): # gets the tail
+        if self.is_empty():
+            return None
+        return self.array[self.tail]
+
+    def deq(self): # deques the array
+        if self.is_empty():
+            return None
+        front = self.array[self.front]
+        size = self.size()
+        if size == 1:
+            self.front = -1
+            self.tail = -1
         else:
-            self.queue.append(data)
-            self.rear += 1
+            self.front = (self.front + 1) % len(self.array)
+        return front
 
-    # Function to delete an element
-    # from the front of the queue
-    def queueDequeue(self):
-        # If queue is empty
-        if (self.front == self.rear):
-            print("Queue is empty")
-        # Pop the front element from list
-        else:
-            x = self.queue.pop(0)
-            self.rear -= 1
+    def enq(self, data=None): # enques the array
+        if self.is_full():
+            big_array = [0 for i in range(len(self.array) * 2)]
+            for i in range(self.front, self.front + self.size(), 1):
+                big_array[i % len(big_array)] = self.array[i % len(self.array)]
+            self.front = 0
+            self.tail = self.size() - 1
+            self.array = big_array
+        if self.is_empty():
+            self.front = 0
+        self.tail = (self.tail + 1) % len(self.array)
+        self.array[self.tail] = data
 
-    # Function to print queue elements
-    def queueDisplay(self):
-        if (self.front == self.rear):
-            print("\nQueue is Empty")
-        # Traverse front to rear to
-        # print elements
-        for i in self.queue:
-            print(i, "<--", end='')
 
-    # Print front of queue
-    def queueFront(self):
-        if (self.front == self.rear):
-            print("\nQueue is Empty")
-        print("\nFront Element is:",
-              self.queue[self.front])
+    def print(self): #prints
+        for i in range(self.front, self.front + self.size(), 1):
+            print(self.array[i % len(self.array)], "=>", end=" ")
+        print("NULL")
+
+    def is_empty(self): # check if it is empty
+        return self.front == -1
+
+    def clear(self): # clears the array
+        self.front = -1
+        self.tail = -1
+
+    def is_full(self): # check if it is full
+        l = self.size()
+        return l >= len(self.array)
+
+    def size(self): # returns the size of array
+        if self.front == -1:
+            return 0
+        l = self.tail - self.front + 1
+        if self.tail < self.front:
+            l = len(self.array) - self.front + self.tail + 1
+        return l
 
 def main():
     s = QueueArray()
-    s.queueEnqueue(5)
-    print(s.is_empty())
+    le = []
+    la = []
+    for i in range(20, 201, 10):
+        s.enq(i)
+        le.append(i)
+    while not s.is_empty():
+        la.append(s.deq())
+    print(le==la)
 
-# Don't run main on import
 if __name__ == "__main__":
     main()
-
-
