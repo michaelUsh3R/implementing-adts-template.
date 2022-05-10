@@ -9,32 +9,28 @@ from Node import Node
 class StackLL(object):
     def __init__(self, list=None):
         self.top = None
+        self.top = -1
+        self.max = 100
+        self.list = [0 for i in range(self.max)]
+
         if list is not None:
             for item in list:
                 self.add(item)
 
     def peek(self): # peek function for the queue
-        if self.isempty():
-            return None
-        else:
-            return self.head.data
+        return self.list[self.top]
 
     def pop(self): # Removes the head node and makes the preceding one the new head
-        if self.isempty():
+        if (self.is_empty()):
             return None
-        else:
-            poppednode = self.head
-            self.head = self.head.next
-            poppednode.next = None
-            return poppednode.data
+        item = self.list[self.top]
+        self.top = self.top - 1
+        self.list.pop()
+        return item
 
     def push(self, data=None): # pushes the items to the queue
-        if self.head == None:
-            self.head = Node(data)
-        else:
-            newnode = Node(data)
-            newnode.next = self.head
-            self.head = newnode
+        self.top = self.top + 1
+        self.list[self.top] = data
 
     def print(self): #prints the list
         n = self.top
@@ -43,30 +39,24 @@ class StackLL(object):
             n = n.get_next()
         print("NULL")
 
-    def is_empty(self): # checks if the list is empty
-        if self.head == None:
-            return True
-        else:
-            return False
+    def is_empty(self):
+        return self.top == -1
 
-    def clear(self): # clears the list
+    def clear(self):  # clears the list
         self.front = None
         self.tail = None
 
 def main():
     s = StackLL()
-    s.print()
-    print("Is empty?", s.is_empty())
-    for i in range(1, 7):
+    le = []
+    la = []
+    for i in range(20, 201, 10):
         s.push(i)
-    print("Peek:", s.peek())
-    print("Pop: ", s.pop())
-    s.print()
-    print("Is empty?", s.is_empty())
+        le.insert(0, i)
     while not s.is_empty():
-        print(s.pop())
+        la.append(s.pop())
+    print(le==la)
 
 # Don't run main on import
 if __name__ == "__main__":
     main()
-
